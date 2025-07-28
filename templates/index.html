@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>🗂️ Staff Leave Management</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      background: #f9f9f9;
+      animation: fadeIn 0.8s ease;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">🗂️ Staff Leave Management System</h2>
+
+    <form method="POST" action="/apply" class="border p-4 mb-4 bg-white">
+      <h5>Apply for Leave</h5>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <input type="text" name="name" placeholder="Staff Name" required class="form-control">
+        </div>
+        <div class="form-group col-md-4">
+          <input type="text" name="department" placeholder="Department" required class="form-control">
+        </div>
+        <div class="form-group col-md-4">
+          <input type="date" name="date" required class="form-control">
+        </div>
+      </div>
+      <textarea name="reason" placeholder="Reason for Leave" class="form-control mb-2"></textarea>
+      <button type="submit" class="btn btn-success">Submit Leave Request</button>
+    </form>
+
+    <h5 class="mb-3">Leave Requests</h5>
+    <table class="table table-bordered bg-white">
+      <thead class="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Dept</th>
+          <th>Date</th>
+          <th>Reason</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for leave in leaves %}
+        <tr>
+          <td>{{ leave.id }}</td>
+          <td>{{ leave.name }}</td>
+          <td>{{ leave.department }}</td>
+          <td>{{ leave.date }}</td>
+          <td>{{ leave.reason }}</td>
+          <td>
+            {% if leave.status == 'Approved' %}
+              <span class="badge badge-success">{{ leave.status }}</span>
+            {% elif leave.status == 'Rejected' %}
+              <span class="badge badge-danger">{{ leave.status }}</span>
+            {% else %}
+              <span class="badge badge-warning">{{ leave.status }}</span>
+            {% endif %}
+          </td>
+          <td>
+            <a href="/update/{{ leave.id }}/Approved" class="btn btn-sm btn-success">Approve</a>
+            <a href="/update/{{ leave.id }}/Rejected" class="btn btn-sm btn-danger">Reject</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <footer>Developed by Nirmal Kumar S - Final year ECE</footer>
+</body>
+</html>
